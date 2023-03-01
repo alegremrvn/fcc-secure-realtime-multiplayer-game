@@ -10,6 +10,17 @@ const runner = require('./test-runner.js');
 
 const app = express();
 
+app.use((req, res, next) => {
+  res.set('x-content-type-options', 'nosniff')
+  res.set('x-powered-by', 'PHP 7.4.3')
+  res.set('surrogate-control', 'no-store')
+  res.set('cache-control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
+  res.set('pragma', 'no-cache')
+  res.set('expires', '0')
+  res.set('x-xss-protection', '1; mode=block')
+  next()
+})
+
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use('/assets', express.static(process.cwd() + '/assets'));
 
